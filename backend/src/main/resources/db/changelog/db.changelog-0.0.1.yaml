@@ -1,0 +1,166 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: karlaecs
+      changes:
+        - createTable:
+            tableName: transactions
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    - primaryKeyName: transactions_id_pk
+                    - primaryKey: true
+                    - nullable: false
+              - column:
+                  name: value
+                  type: numeric
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: description
+                  type: varchar(100)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: type
+                  type: varchar(50)
+                  constraints:
+                    - nullable: false
+        - createTable:
+            tableName: balances
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    - primaryKeyName: balances_id_pk
+                    - primaryKey: true
+                    - nullable: false
+              - column:
+                  name: total
+                  type: numeric
+                  constraints:
+                    - nullable: false
+              - column:
+                      name: total_credit
+                      type: bigint
+                      constraints:
+                      - nullable: false
+              - column:
+                      name: total_debit
+                      type: bigint
+                      constraints:
+                      - nullable: false
+              - column:
+                      name: total_transactions
+                      type: bigint
+                      constraints:
+                      - nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  constraints:
+                    - nullable: false
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    - primaryKeyName: users_id_pk
+                    - primaryKey: true
+                    - nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: deleted_at
+                  type: timestamp with time zone
+
+        - createSequence:
+            sequenceName: seq_users_id
+        - createSequence:
+            sequenceName: seq_balances_id
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  valueComputed: nextval('seq_users_id')
+              - column:
+                  name: email
+                  value: 'user@email.com.br'
+              - column:
+                  name: password
+                  value: '$2a$10$wVfVVJkFF..FwApANBMzPusPAJQPK5wey7hH0gHbeap6Yb/XwaM7y'
+              - column:
+                  name: first_name
+                  value: 'admin'
+              - column:
+                  name: last_name
+                  value: 'master'
+              - column:
+                  name: created_at
+                  value: now()
+              - column:
+                  name: updated_at
+                  value: now()
+        - insert:
+            tableName: balances
+            columns:
+              - column:
+                  name: id
+                  valueComputed: nextval('seq_balances_id')
+              - column:
+                  name: total
+                  value: 0
+              - column:
+                      name: total_credit
+                      value: 0
+              - column:
+                      name: total_debit
+                      value: 0
+              - column:
+                      name: total_transactions
+                      value: 0
+              - column:
+                  name: created_at
+                  value: now()
